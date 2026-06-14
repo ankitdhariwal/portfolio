@@ -1,26 +1,253 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-bg:        #0a1628;
+  --color-card:      #0f1f3d;
+  --color-accent:    #2563eb;
+  --color-accent-h:  #3b82f6;
+  --color-skill:     #3b82f6;
+  --color-progress:  #93c5fd;
+  --color-text:      #ffffff;
+  --color-sub:       #868e96;
+  --color-muted:     #c3c3c3;
+  --color-border:    rgba(59, 130, 246, 0.2);
+
+  --font-sans:    "Inter", sans-serif;
+  --font-display: "Inter", sans-serif;
+  --font-mono:    "JetBrains Mono", monospace;
+
+  --breakpoint-xs: 475px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ── Keyframes ──────────────────────────────────────────────── */
+@keyframes wave {
+  0%   { transform: rotate(0deg); }
+  10%  { transform: rotate(14deg); }
+  20%  { transform: rotate(-8deg); }
+  30%  { transform: rotate(14deg); }
+  40%  { transform: rotate(-4deg); }
+  50%  { transform: rotate(10deg); }
+  60%  { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-10px); }
+}
+
+/* ── Base ────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0a1628;
+  color: #ffffff;
+  font-family: "Inter", sans-serif;
+  font-size: 19px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Scrollbar ──────────────────────────────────────────────── */
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: #0a1628; }
+::-webkit-scrollbar-thumb  { background: #2563eb; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+
+/* ── Selection ──────────────────────────────────────────────── */
+::selection { background: rgba(37, 99, 235, 0.4); color: #fff; }
+
+/* ── Focus ──────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ── Container ──────────────────────────────────────────────── */
+.dev-container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ── Section ────────────────────────────────────────────────── */
+.dev-section {
+  padding: 80px 0;
+}
+
+/* ── Wave emoji ─────────────────────────────────────────────── */
+.wave-emoji {
+  display: inline-block;
+  transform-origin: 70% 70%;
+  animation: wave 1.8s ease infinite;
+}
+
+/* ── Typewriter cursor ──────────────────────────────────────── */
+.cursor-blink {
+  animation: blink 1s step-start infinite;
+}
+
+/* ── Dev Card ───────────────────────────────────────────────── */
+.dev-card {
+  background: #0f1f3d;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px -15px rgba(0,0,0,0.5);
+  transition: box-shadow 0.3s ease;
+}
+.dev-card:hover {
+  box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+}
+
+/* ── Primary button ─────────────────────────────────────────── */
+.dev-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 22px;
+  background: #2563eb;
+  color: #fff;
+  border: 1px solid #2563eb;
+  border-radius: 6px;
+  font-family: "Inter", sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.dev-btn:hover {
+  background: #fff;
+  color: #2563eb;
+  transform: translateY(-3px);
+}
+.dev-btn-outline {
+  background: transparent;
+  color: #2563eb;
+  border: 1px solid #2563eb;
+}
+.dev-btn-outline:hover {
+  background: #2563eb;
+  color: #fff;
+  transform: translateY(-3px);
+}
+
+/* ── Social icon button ─────────────────────────────────────── */
+.social-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  font-size: 18px;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.social-icon-btn:hover {
+  transform: translateY(-4px);
+  filter: brightness(1.2);
+}
+
+/* ── Skill badge ────────────────────────────────────────────── */
+.skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 20px;
+  font-size: 13px;
+  color: #c3c3c3;
+  transition: all 0.2s ease;
+}
+.skill-badge:hover {
+  background: rgba(59, 130, 246, 0.25);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ── Terminal ────────────────────────────────────────────────── */
+.terminal-window {
+  background: #0d1117;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.terminal-header {
+  background: #21262d;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.terminal-body {
+  padding: 20px 24px;
+  color: #c9d1d9;
+  min-height: 340px;
+}
+.t-ln { color: #484f58; margin-right: 16px; user-select: none; font-size: 11px; }
+.t-keyword { color: #ff7b72; }
+.t-fn      { color: #d2a8ff; }
+.t-string  { color: #a5d6ff; }
+.t-comment { color: #8b949e; font-style: italic; }
+.t-number  { color: #79c0ff; }
+.t-class   { color: #ffa657; }
+.t-self    { color: #e6edf3; }
+
+/* ── Progress bar ───────────────────────────────────────────── */
+.progress-bar {
+  height: 20px;
+  background: #f3efef;
+  border-radius: 25px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #93c5fd);
+  border-radius: 25px;
+  transition: width 1s ease;
+}
+
+/* ── Experience card header ─────────────────────────────────── */
+.exp-banner {
+  height: 11rem;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Section heading accent line ────────────────────────────── */
+.section-heading-line {
+  width: 70px;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #93c5fd);
+  border-radius: 2px;
+  margin: 12px 0 0;
 }
